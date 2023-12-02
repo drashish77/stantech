@@ -5,3 +5,20 @@
 svg {
   fill: currentColor;
 }
+
+.input__name {
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 10px; */
+  width: 20%;
+  border: solid 1px #d4d4d4;
+  margin: 0 auto;
+  padding: 10px;
+
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

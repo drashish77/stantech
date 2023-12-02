@@ -17,7 +17,7 @@ const Search = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='container p-0 md:p-8'>
       <form className='md:mt-10 text-xs md:text-base'>
         <div className='group'>
           <input
@@ -53,7 +53,7 @@ const Search = () => {
             )
             .map((i) => (
               <tr key={i.id} className='text-[10px] md:text-base'>
-                <td className='border p-1 md:p-2'>{i.name}</td>
+                <td className='border p-1 md:p-2 input__name'>{i.name}</td>
                 <td className='border p-1 md:p-2 '>
                   {i.status === true ? (
                     <div className='bg-green-500 text-white p-1 md:p-2'>
@@ -76,7 +76,7 @@ const Search = () => {
                     <Image
                       src='images/edit.svg'
                       alt='Vercel Logo'
-                      className='text-green-500 w-2 h-2 md:w-5 md:h-5'
+                      className=' w-4 h-4 md:w-5 md:h-5'
                       width={20}
                       height={20}
                       priority
@@ -86,7 +86,7 @@ const Search = () => {
                     <Image
                       src='images/trash.svg'
                       alt='Vercel Logo'
-                      className='text-green-500 w-2 h-2 md:w-5 md:h-5'
+                      className=' w-4 h-4 md:w-5 md:h-5'
                       width={20}
                       height={20}
                       priority
