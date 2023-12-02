@@ -24,7 +24,7 @@ const Search = () => {
             type='text'
             className='w-full border px-4 py-2'
             placeholder='search by name and dates'
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
           />
         </div>
       </form>
@@ -46,7 +46,7 @@ const Search = () => {
         <tbody className=''>
           {finalData
             .filter((item) =>
-              search.toLowerCase() === ''
+              search === ''
                 ? item
                 : item.name.toLowerCase().includes(search) ||
                   item.due_date.toLowerCase().includes(search) ||
