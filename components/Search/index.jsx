@@ -30,16 +30,16 @@ const Search = () => {
       </form>
       <table className='border w-full'>
         <thead className='border '>
-          <tr className=''>
-            <th className='border text-xs md:text-lg md:p-2'>
+          <tr className='text-[10px] md:text-lg'>
+            <th className='border md:p-2'>
               <button type='button' onClick={() => setSortedField('name')}>
                 Name
               </button>
             </th>
-            <th className='border text-xs md:text-lg md:p-2'>Status</th>
-            <th className='border text-xs md:text-lg md:p-2'>Due Date</th>
-            <th className='border text-xs md:text-lg md:p-2'>Created at</th>
-            <th className='border text-xs md:text-lg md:p-2'>Actions</th>
+            <th className='border md:p-2'>Status</th>
+            <th className='border md:p-2'>Due Date</th>
+            <th className='border md:p-2'>Created at</th>
+            <th className='border md:p-2'>Actions</th>
           </tr>
         </thead>
         <tbody className=''>
@@ -52,23 +52,31 @@ const Search = () => {
                   item.creation_date.toLowerCase().includes(search)
             )
             .map((i) => (
-              <tr key={i.id} className='text-xs md:text-base'>
+              <tr key={i.id} className='text-[10px] md:text-base'>
                 <td className='border p-1 md:p-2'>{i.name}</td>
                 <td className='border p-1 md:p-2 '>
                   {i.status === true ? (
-                    <div className='bg-green-500 text-white p-2'>Active</div>
+                    <div className='bg-green-500 text-white p-1 md:p-2'>
+                      Active
+                    </div>
                   ) : (
-                    <div className='bg-red-500 text-white p-2'>Not active</div>
+                    <div className='bg-red-500 text-white p-1 md:p-2'>
+                      Inactive
+                    </div>
                   )}
                 </td>
-                <td className='border p-1 md:p-2'>{i.due_date}</td>
-                <td className='border p-1 md:p-2'>{i.creation_date}</td>
+                <td className='border text-[10px] md:text-base p-1 md:p-2'>
+                  {i.due_date}
+                </td>
+                <td className='border text-[10px] md:text-base p-1 md:p-2'>
+                  {i.creation_date}
+                </td>
                 <td className='border p-1 md:p-2 flex justify-evenly'>
                   <button onClick={() => editHandler(i.id)}>
                     <Image
                       src='images/edit.svg'
                       alt='Vercel Logo'
-                      className='text-green-500'
+                      className='text-green-500 w-2 h-2 md:w-5 md:h-5'
                       width={20}
                       height={20}
                       priority
@@ -78,7 +86,7 @@ const Search = () => {
                     <Image
                       src='images/trash.svg'
                       alt='Vercel Logo'
-                      className='text-red-500'
+                      className='text-green-500 w-2 h-2 md:w-5 md:h-5'
                       width={20}
                       height={20}
                       priority
