@@ -1,17 +1,46 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import data from './data.json'
 import Image from 'next/image'
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { db } from '@/fibase'
+import { uuid } from 'uuidv4'
 
 const Search = () => {
-  const [finalData, setFinalData] = useState(data)
+  // const [todos, setTodos] = useState([])
+  const [finalData, setFinalData] = useState([])
   const [search, setSearch] = useState('')
   const [sortedField, setSortedField] = useState(null)
 
-  const deleteHandler = (id) => {
-    setFinalData(finalData.filter((i) => i.id !== id))
+  const deleteHandler = async (id) => {
+    const taskRef = doc(db, 'tasks', id)
+
+    deleteDoc(taskRef)
+      .then(() => {
+        setFinalData(finalData.filter((i) => i.id !== id))
+        console.log('Document successfully deleted!')
+      })
+      .catch((error) => {
+        console.error('Error removing document: ', error)
+      })
+
+    // setFinalData(finalData.filter((i) => i.id !== id))
   }
 
+  const fetchPost = async () => {
+    const taskRef = collection(db, 'tasks')
+    await getDocs(taskRef).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+      setFinalData(newData)
+    })
+  }
+
+  useEffect(() => {
+    fetchPost()
+  }, [])
   const editHandler = (id) => {
     // setFinalData(finalData.filter((i) => i.id !== id))
   }
@@ -44,66 +73,73 @@ const Search = () => {
           </tr>
         </thead>
         <tbody className=''>
-          {finalData
-            .filter((item) =>
-              search === ''
-                ? item
-                : item.name.toLowerCase().includes(search) ||
-                  item.due_date.toLowerCase().includes(search) ||
-                  item.creation_date.toLowerCase().includes(search)
-            )
-            .map((i) => (
-              <tr key={i.id} className='text-[10px] md:text-base'>
-                <td className='border p-1 md:p-2 input__name'>{i.name}</td>
-                <td className='border p-1 md:p-2 '>
-                  {i.status === true ? (
-                    <div className='bg-green-500 text-white p-1 md:p-2'>
-                      Active
+          {finalData.length !== 0 ? (
+            finalData
+              .filter((item) =>
+                search === ''
+                  ? item
+                  : item.name.toLowerCase().includes(search) ||
+                    item.dueDate.toLowerCase().includes(search) ||
+                    item.createdAt.toLowerCase().includes(search) ||
+                    item.status.toLowerCase().includes(search)
+              )
+              .map((i) => (
+                <tr key={i.id} className='text-[10px] md:text-base'>
+                  <td className='border p-1 md:p-2 input__name'>{i.name}</td>
+                  <td className='border p-1 md:p-2 '>
+                    {i.status === 'active' ? (
+                      <div className='bg-green-500 text-white p-1 md:p-2'>
+                        Active
+                      </div>
+                    ) : (
+                      <div className='bg-red-500 text-white p-1 md:p-2'>
+                        Inactive
+                      </div>
+                    )}
+                  </td>
+                  <td className='border text-[10px] md:hidden md:text-base  '>
+                    <div className='bg-blue-100 p-1 md:p-2'>
+                      Due at: {i.dueDate}
                     </div>
-                  ) : (
-                    <div className='bg-red-500 text-white p-1 md:p-2'>
-                      Inactive
+                    <div className='bg-gray-100 p-1 md:p-2'>
+                      Created: {i.createdAt}
                     </div>
-                  )}
-                </td>
-                <td className='border text-[10px] md:hidden md:text-base  '>
-                  <div className='bg-blue-100 p-1 md:p-2'>
-                    Due at: {i.due_date}
-                  </div>
-                  <div className='bg-gray-100 p-1 md:p-2'>
-                    Created: {i.creation_date}
-                  </div>
-                </td>
-                <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
-                  {i.due_date}
-                </td>
-                <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
-                  {i.creation_date}
-                </td>
-                <td className='border p-1 md:p-2 flex justify-evenly'>
-                  <button onClick={() => editHandler(i.id)}>
-                    <Image
-                      src='images/edit.svg'
-                      alt='Vercel Logo'
-                      className=' w-4 h-4 md:w-5 md:h-5'
-                      width={20}
-                      height={20}
-                      priority
-                    />
-                  </button>
-                  <button onClick={() => deleteHandler(i.id)}>
-                    <Image
-                      src='images/trash.svg'
-                      alt='Vercel Logo'
-                      className=' w-4 h-4 md:w-5 md:h-5'
-                      width={20}
-                      height={20}
-                      priority
-                    />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
+                    {i.dueDate}
+                  </td>
+                  <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
+                    {i.createdAt}
+                  </td>
+                  <td className='border p-1 md:p-2 flex justify-evenly'>
+                    <button onClick={() => editHandler(i.id)}>
+                      <Image
+                        src='images/edit.svg'
+                        alt='Vercel Logo'
+                        className=' w-4 h-4 md:w-5 md:h-5'
+                        width={20}
+                        height={20}
+                        priority
+                      />
+                    </button>
+                    <button onClick={() => deleteHandler(i.id)}>
+                      <Image
+                        src='images/trash.svg'
+                        alt='Vercel Logo'
+                        className=' w-4 h-4 md:w-5 md:h-5'
+                        width={20}
+                        height={20}
+                        priority
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))
+          ) : (
+            <tr className='text-center'>
+              Nothing to show, please add some tasks
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

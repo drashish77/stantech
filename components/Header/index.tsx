@@ -13,7 +13,14 @@ const Header = () => {
       <nav className='sticky top-0 flex  h-[100px] items-center justify-between p-4 lg:container '>
         <div className=''>
           <Link href='/'>
-            <p className='font-bold text-4xl'>TM</p>
+            <Image
+              src='/android-chrome-512x512.png'
+              alt='Vercel Logo'
+              className='ml-2'
+              width={50}
+              height={50}
+              priority
+            />
           </Link>
         </div>
         <div className='hidden items-center gap-12  md:flex'>
