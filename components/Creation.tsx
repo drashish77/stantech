@@ -7,7 +7,7 @@ import { db } from '@/fibase'
 import { collection, addDoc } from 'firebase/firestore'
 import { uuid } from 'uuidv4'
 import { useRouter } from 'next/navigation'
-// import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 const TaskForm: React.FC = () => {
   const router = useRouter()
@@ -33,6 +33,17 @@ const TaskForm: React.FC = () => {
       try {
         const docRef = await addDoc(collection(db, 'tasks'), {
           ...values,
+        })
+        // toast('Task added!')
+        toast('🦄 Wow so easy!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
         })
         router.push('/')
       } catch (e) {

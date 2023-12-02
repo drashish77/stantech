@@ -1,13 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import data from './data.json'
+// import data from './data.json'
 import Image from 'next/image'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '@/fibase'
-import { uuid } from 'uuidv4'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Search = () => {
-  // const [todos, setTodos] = useState([])
   const [finalData, setFinalData] = useState([])
   const [search, setSearch] = useState('')
   const [sortedField, setSortedField] = useState(null)
@@ -17,8 +16,19 @@ const Search = () => {
 
     deleteDoc(taskRef)
       .then(() => {
+        // toast('The task deleted successfully')
         setFinalData(finalData.filter((i) => i.id !== id))
-        console.log('Document successfully deleted!')
+
+        toast('Task deleted Successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        })
       })
       .catch((error) => {
         console.error('Error removing document: ', error)
@@ -73,7 +83,7 @@ const Search = () => {
           </tr>
         </thead>
         <tbody className=''>
-          {finalData.length !== 0 ? (
+          {finalData.length !== 0 &&
             finalData
               .filter((item) =>
                 search === ''
@@ -134,12 +144,12 @@ const Search = () => {
                     </button>
                   </td>
                 </tr>
-              ))
-          ) : (
-            <tr className='text-center'>
+              ))}
+          {/* {finalData.length === 0 && (
+            <div className='text-center'>
               Nothing to show, please add some tasks
-            </tr>
-          )}
+            </div>
+          )} */}
         </tbody>
       </table>
     </div>
