@@ -36,9 +36,10 @@ const Search = () => {
                 Name
               </button>
             </th>
-            <th className='border md:p-2'>Status</th>
-            <th className='border md:p-2'>Due Date</th>
-            <th className='border md:p-2'>Created at</th>
+            <th className='border md:p-2 w-16 md:w-auto'>Status</th>
+            <th className='border md:hidden md:p-2 w-28'>Dates</th>
+            <th className='border hidden md:table-cell md:p-2'>Due Date</th>
+            <th className='border hidden md:table-cell md:p-2'>Created at</th>
             <th className='border md:p-2'>Actions</th>
           </tr>
         </thead>
@@ -65,10 +66,18 @@ const Search = () => {
                     </div>
                   )}
                 </td>
-                <td className='border text-[10px] md:text-base p-1 md:p-2'>
+                <td className='border text-[10px] md:hidden md:text-base  '>
+                  <div className='bg-blue-100 p-1 md:p-2'>
+                    Due at: {i.due_date}
+                  </div>
+                  <div className='bg-gray-100 p-1 md:p-2'>
+                    Created: {i.creation_date}
+                  </div>
+                </td>
+                <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
                   {i.due_date}
                 </td>
-                <td className='border text-[10px] md:text-base p-1 md:p-2'>
+                <td className='border text-[10px] hidden md:table-cell md:text-base p-1 md:p-2'>
                   {i.creation_date}
                 </td>
                 <td className='border p-1 md:p-2 flex justify-evenly'>
