@@ -5,25 +5,13 @@ import 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 const firebaseConfig = {
-  // apiKey: process.env.YOUR_API_KEY,
-  // authDomain: process.env.YOUR_AUTH_DOMAIN,
-  // projectId: process.env.YOUR_PROJECT_ID,
-  // storageBucket: process.env.YOUR_STORAGE_BUCKET,
-  // messagingSenderId: process.env.YOUR_MESSAGING_SENDER_ID,
-  // appId: process.env.YOUR_APP_ID,
-  apiKey: 'AIzaSyDpfFrODuI_vCZNLvfgJQUJbqj28HPo8E4',
-  authDomain: 'tasq-1.firebaseapp.com',
-  projectId: 'tasq-1',
-  storageBucket: 'tasq-1.appspot.com',
-  messagingSenderId: '690734504926',
-  appId: '1:690734504926:web:461dd7c73c19badbb01b4f',
+  apiKey: process.env.NEXT_PUBLIC_YOUR_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_YOUR_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_YOUR_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_YOUR_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_YOUR_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_YOUR_APP_ID,
 }
-
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig)
-// }
-
-// const firestore = firebase.firestore()
 
 // export { firestore }
 const app = initializeApp(firebaseConfig)

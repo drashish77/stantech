@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 
-
 const LoginForm = () => {
   const router = useRouter()
 
@@ -37,10 +36,8 @@ const LoginForm = () => {
         // Signed in
         const user = userCredential.user
         toast('Login successful')
-        // console.log('{ user }', user?.stsTokenManager.accessToken)
+
         router.push('/')
-        // localStorage.setItem('token', user?.accessToken)
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code

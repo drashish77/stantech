@@ -59,7 +59,8 @@ const EditTaskForm = (data: TaskData) => {
               theme: 'light',
             })
             // router.push('/')
-            modalOpenHandler()
+
+            modalOpenHandler(true)
           })
           .catch((error) => {
             console.log(error)

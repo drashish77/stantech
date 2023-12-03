@@ -4,64 +4,30 @@ import React, { useState, useEffect, use } from 'react'
 import Image from 'next/image'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '@/fibase'
-import { ToastContainer, toast } from 'react-toastify'
-import FormModal from '../Modal'
+import { toast } from 'react-toastify'
 import Loader from '../Loader'
-import EditForm from '../EditForm'
 import EditTaskForm from '../EditedTask'
+import { GoSortAsc } from 'react-icons/go'
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [finalData, setFinalData] = useState([])
   const [search, setSearch] = useState('')
-  const [sortedField, setSortedField] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [filteredUsers, setFilteredUsers] = useState([])
   const [users, setUsers] = useState([])
-  const [isDisplayForm, setIsDisplayForm] = useState(false)
   const [userEdit, setUserEdit] = useState({
     name: '',
     status: '',
     dueDate: '',
   })
 
-  //user property update
-  const handleChange = (e) =>
-    setUserEdit({ ...userEdit, [e.target.name]: e.target.value })
-
   //edit handler
   const editClickHandler = (id) => {
-    setUsers(
-      finalData.map((i) =>
-        i.id === id ? { ...finalData.find((i) => i.id === id), edit: true } : i
-      )
+    let userTemp = finalData.map((i) =>
+      i.id === id ? { ...finalData.find((i) => i.id === id), edit: true } : i
     )
-    setIsDisplayForm(true)
+    setUsers([...userTemp])
     setUserEdit(finalData.find((user) => user.id === id))
-  }
-
-  //search filter
-  useEffect(() => {
-    setFilteredUsers(
-      finalData &&
-        finalData.filter(
-          (user) =>
-            user.name.toLowerCase().includes(search.toLowerCase()) ||
-            user.status.toLowerCase().includes(search.toLowerCase()) ||
-            user.dueDate.toLowerCase().includes(search.toLowerCase())
-        )
-    )
-  }, [finalData, search])
-
-  const closeFormHandler = () => {
-    setIsDisplayForm(false)
-  }
-  const onSubmit = (e, id) => {
-    e.preventDefault()
-    const data = users.map((user) =>
-      user.id === id ? { ...user, ...userEdit, edit: false } : user
-    )
-    setUsers(data)
   }
 
   const deleteHandler = async (id) => {
@@ -86,8 +52,6 @@ const Search = () => {
       .catch((error) => {
         console.error('Error removing document: ', error)
       })
-
-    // setFinalData(finalData.filter((i) => i.id !== id))
   }
 
   const fetchPost = async () => {
@@ -105,14 +69,47 @@ const Search = () => {
 
   useEffect(() => {
     fetchPost()
-  }, [userEdit])
+  }, [])
 
-  const editHandler = (id) => {
-    isOpen === false ? setIsOpen(true) : setIsOpen(false)
-    return <FormModal id={id} isOpen={isOpen} setIsOpen={setIsOpen} />
+  const nameSortHandler = () => {
+    let sortedData = finalData.sort((a, b) => {
+      let fa = a.name.toLowerCase(),
+        fb = b.name.toLowerCase()
+
+      if (fa < fb) {
+        return -1
+      }
+      if (fa > fb) {
+        return 1
+      }
+      return 0
+    })
+
+    setFinalData([...sortedData])
   }
-  const modalOpenHandler = () =>
+  const statusSortHandler = () => {
+    let sortedData = finalData.sort((a, b) => {
+      let fa = a.status.toLowerCase(),
+        fb = b.status.toLowerCase()
+
+      if (fa < fb) {
+        return -1
+      }
+      if (fa > fb) {
+        return 1
+      }
+      return 0
+    })
+
+    setFinalData([...sortedData])
+  }
+  const modalOpenHandler = (isUserUpdated) => {
+    if (isUserUpdated) {
+      fetchPost()
+    }
     isOpen === false ? setIsOpen(true) : setIsOpen(false)
+  }
+
   if (loading === true) {
     return <Loader />
   } else
@@ -131,12 +128,19 @@ const Search = () => {
         <table className='border w-full'>
           <thead className='border '>
             <tr className='text-[10px] md:text-lg'>
-              <th className='border md:p-2'>
-                <button type='button' onClick={() => setSortedField('name')}>
+              <th className='border md:p-2 hover:bg-slate-50'>
+                <button type='button ' onClick={() => nameSortHandler()}>
                   Name
+                  <GoSortAsc className='inline ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40' />
                 </button>
               </th>
-              <th className='border md:p-2 w-16 md:w-auto'>Status</th>
+              <th
+                className='border md:p-2 w-16 md:w-auto cursor-pointer hover:bg-slate-50'
+                onClick={() => statusSortHandler()}
+              >
+                Status
+                <GoSortAsc className='inline ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40' />
+              </th>
               <th className='border md:hidden md:p-2 w-28'>Dates</th>
               <th className='border hidden md:table-cell md:p-2'>Due Date</th>
               <th className='border hidden md:table-cell md:p-2'>Created at</th>
@@ -211,30 +215,9 @@ const Search = () => {
                     </td>
                   </tr>
                 ))}
-            {/* {finalData.length === 0 && (
-            <div className='text-center'>
-              Nothing to show, please add some tasks
-            </div>
-          )} */}
           </tbody>
         </table>
-        {filteredUsers.map(
-          (user) =>
-            user.edit &&
-            isDisplayForm && (
-              <EditForm
-                modalOpenHandler={modalOpenHandler}
-                key={user.id}
-                id={user.id}
-                name={userEdit.name}
-                email={userEdit.email}
-                role={userEdit.role}
-                onSubmit={onSubmit}
-                closeFormHandler={closeFormHandler}
-                handleChange={handleChange}
-              />
-            )
-        )}
+
         {isOpen && (
           <>
             <div className='modalWrapper'>
@@ -255,7 +238,6 @@ const Search = () => {
                   id={userEdit.id}
                   createdAt={undefined}
                 />
-                {/* <EditForm id={} /> */}
               </div>
             </div>
           </>

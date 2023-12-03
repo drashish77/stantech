@@ -1,5 +1,5 @@
 {
-  "name": "jslovers-official-website",
+  "name": "Tasq-demo-website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,20 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@dotlottie/player-component": "^2.7.2",
-    "@types/react-datepicker": "^4.19.3",
-    "@types/store": "^2.0.5",
     "cookies-next": "^4.1.0",
     "firebase": "^10.7.0",
     "formik": "^2.4.5",
     "next": "14.0.0",
-    "rc-pagination": "^4.0.1",
     "react": "^18",
-    "react-datepicker": "^4.24.0",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
     "react-toastify": "^9.1.3",
-    "store": "^2.0.12",
     "uuidv4": "^6.2.13",
     "yup": "^1.3.2"
   },
