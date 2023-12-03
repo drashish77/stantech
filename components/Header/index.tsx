@@ -166,21 +166,39 @@ const Header = () => {
                       </div>
                     </Link>
                   </li>
-                  <li className='my-2  px-2 py-1' onClick={menuHandler}>
-                    <Link href='jobs'>
-                      <div className='hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]'>
-                        Login
-                        <Image
-                          src='images/login.svg'
-                          alt='Vercel Logo'
-                          className='text-red-500 inline ml-2'
-                          width={20}
-                          height={20}
-                          priority
-                        />
-                      </div>
-                    </Link>
-                  </li>
+                  {authUser ? (
+                    <li className='my-2  px-2 py-1' onClick={menuHandler}>
+                      <button onClick={signOutHandler}>
+                        <div className='hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]'>
+                          Logout
+                          <Image
+                            src='images/login.svg'
+                            alt='Vercel Logo'
+                            className='text-red-500 inline ml-2'
+                            width={20}
+                            height={20}
+                            priority
+                          />
+                        </div>
+                      </button>
+                    </li>
+                  ) : (
+                    <li className='my-2  px-2 py-1' onClick={menuHandler}>
+                      <Link href='/login'>
+                        <div className='hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]'>
+                          Login
+                          <Image
+                            src='images/login.svg'
+                            alt='Vercel Logo'
+                            className='text-red-500 inline ml-2'
+                            width={20}
+                            height={20}
+                            priority
+                          />
+                        </div>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
