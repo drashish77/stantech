@@ -1,18 +1,28 @@
-import React from 'react'
+'use client'
+import { useState } from 'react'
 
-const FormModal = () => {
- // u
- const onSubmitHandler=()=>{}
+export default function FormModal({
+  isOpen,
+  modalOpenHandler,
+}: {
+  isOpen: any
+  id: string
+  modalOpenHandler: any
+}) {
   return (
-   <div>
-    <form className="" onSubmit={onSubmitHandler}>
-     <div className="group">
-      <label htmlFor="name">Name</label>
-      <input type="text" placeholder='name' />
-     </div>
-    </form>
+    <div className=''>
+      {isOpen && (
+        <>
+          <div className='modalWrapper'>
+            <div className='modal'>
+              <button onClick={modalOpenHandler} className='close'>
+                X
+              </button>
+              <h3>This is my modal</h3>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
-
-export default FormModal

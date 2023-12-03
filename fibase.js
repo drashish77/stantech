@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
 const firebaseConfig = {
   // apiKey: process.env.YOUR_API_KEY,
   // authDomain: process.env.YOUR_AUTH_DOMAIN,
@@ -27,3 +28,6 @@ const firebaseConfig = {
 // export { firestore }
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
+
+// Initialize Firebase Authentication and get a reference to the service
+export const auth = getAuth(app)

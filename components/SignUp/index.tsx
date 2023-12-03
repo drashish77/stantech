@@ -3,13 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { formSchema } from './schema'
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md'
 import { MdPassword } from 'react-icons/md'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/fibase'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import Link from 'next/link'
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const router = useRouter()
 
   interface FormValues {
@@ -31,11 +30,11 @@ const LoginForm = () => {
       password: values.password,
     }
 
-    signInWithEmailAndPassword(auth, values.email, values.password)
+    createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        // Signed in
+        // Sign up
         const user = userCredential.user
-        toast('Login successful')
+        toast('SignUp successful')
         console.log({ user })
         router.push('/')
         // localStorage.setItem('token', user?.accessToken)
@@ -60,7 +59,7 @@ const LoginForm = () => {
             return (
               <Form className='border p-10 rounded-lg'>
                 <h3 className=' mb-8 text-center text-2xl font-bold text-[#020066]'>
-                  Login
+                  SignUp
                 </h3>
                 {/* {JSON.stringify(props.values)} */}
                 <div className=''>
@@ -101,22 +100,12 @@ const LoginForm = () => {
                     </div>
                   </div>
                 </div>
-                <p className='-mt-5 text-right'>
-                  No account please
-                  <Link
-                    href='/signup'
-                    className='text-blue-500 hover:underline cursor-pointer'
-                  >
-                    {' '}
-                    Sign Up
-                  </Link>{' '}
-                  here
-                </p>
+
                 <div className=' relative'>
                   <button
                     type='submit'
                     // disabled={props.isSubmitting}
-                    className='bg-blue-400 group mt-4 relative  w-full rounded-full px-10 py-3 text-center text-white transition-all duration-[400ms] hover:md:-translate-y-1'
+                    className='bg-blue-400 group relative  w-full rounded-full px-10 py-3 text-center text-white transition-all duration-[400ms] hover:md:-translate-y-1'
                   >
                     Submit
                   </button>
@@ -130,4 +119,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default SignUpForm

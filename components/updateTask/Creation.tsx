@@ -8,34 +8,49 @@ import { collection, addDoc } from 'firebase/firestore'
 import { uuid } from 'uuidv4'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { validationSchema } from './schema'
 
-const TaskForm: React.FC = () => {
+const TaskUpdateForm = ({
+  id,
+  name,
+  status,
+  dueDate,
+  createdAt,
+}: {
+  id: string
+  name: string
+  status: string
+  dueDate: string
+  createdAt: string
+}) => {
   const router = useRouter()
-  // Define the validation schema using Yup
-  const validationSchema = yup.object({
-    id: yup.string(),
-    name: yup.string().required('Task name is required'),
-    status: yup.string().required('Status is required'),
-    dueDate: yup.date().required('Due date is required'),
-    createdAt: yup.date().default(() => new Date()),
-  })
-
   const formik = useFormik({
     initialValues: {
-      id: uuid(),
-      name: '',
-      status: '',
-      dueDate: '',
-      createdAt: new Date().toLocaleDateString('en-CA'),
+      id: id,
+      name: name,
+      status: status,
+      dueDate: dueDate,
+      createdAt: createdAt,
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+
+    onSubmit: async (values, actions) => {
       try {
         const docRef = await addDoc(collection(db, 'tasks'), {
           ...values,
         })
-        // toast('Task added!')
-        toast('🦄 Wow so easy!', {
+
+        actions.resetForm({
+          values: {
+            id: '',
+            name: '',
+            status: '',
+            dueDate: '',
+            createdAt: new Date().toLocaleDateString('en-CA'),
+          },
+          // you can also set the other form states here
+        })
+        toast('Task added!', {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -135,4 +150,4 @@ const TaskForm: React.FC = () => {
   )
 }
 
-export default TaskForm
+export default TaskUpdateForm

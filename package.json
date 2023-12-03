@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dotlottie/player-component": "^2.7.2",
     "@types/react-datepicker": "^4.19.3",
     "@types/store": "^2.0.5",
     "firebase": "^10.7.0",

@@ -1,12 +1,42 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import AuthDetail from '../AuthDetail'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+
+import { auth } from '@/fibase'
+import { toast } from 'react-toastify'
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuHandler = () => {
     setIsOpen((current) => !current)
+  }
+  const [authUser, setAuthUser] = useState<any | null>(null)
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user)
+      } else {
+        setAuthUser(null)
+      }
+    })
+    return () => {
+      listen()
+    }
+  }, [])
+
+  const signOutHandler = () => {
+    signOut(auth)
+      .then(() => {
+        // code for redirect user to Log-in page
+        toast('Sign out Successful')
+        // ...
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
   return (
     <header className='shadow header sticky top-0 z-40  bg-white'>
@@ -36,19 +66,35 @@ const Header = () => {
               </div>
             </Link>
           </div>
-          <Link href='/login'>
-            <div className='hover::-translate-y-1 cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]'>
-              Login
-              <Image
-                src='images/login.svg'
-                alt='Vercel Logo'
-                className='text-red-500 inline ml-2'
-                width={20}
-                height={20}
-                priority
-              />
-            </div>
-          </Link>
+          {authUser ? (
+            <button onClick={signOutHandler}>
+              <div className='hover::-translate-y-1 cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]'>
+                Logout
+                <Image
+                  src='images/logout.svg'
+                  alt='Vercel Logo'
+                  className='text-red-500 inline ml-2'
+                  width={20}
+                  height={20}
+                  priority
+                />
+              </div>
+            </button>
+          ) : (
+            <Link href='/login'>
+              <div className='hover::-translate-y-1 cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]'>
+                Login
+                <Image
+                  src='images/login.svg'
+                  alt='Vercel Logo'
+                  className='text-red-500 inline ml-2'
+                  width={20}
+                  height={20}
+                  priority
+                />
+              </div>
+            </Link>
+          )}
         </div>
         <div className=' block md:hidden'>
           {isOpen ? (
