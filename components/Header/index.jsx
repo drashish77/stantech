@@ -4,19 +4,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import AuthDetail from '../AuthDetail'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
-
+import { deleteCookie, setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 import { auth } from '@/fibase'
 import { toast } from 'react-toastify'
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
-
+  const router = useRouter()
   const menuHandler = () => {
     setIsOpen((current) => !current)
   }
-  const [authUser, setAuthUser] = useState<any | null>(null)
+  const [authUser, setAuthUser] = useState(null)
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setCookie('accessToken', user.accessToken)
         setAuthUser(user)
       } else {
         setAuthUser(null)
@@ -32,6 +35,8 @@ const Header = () => {
       .then(() => {
         // code for redirect user to Log-in page
         toast('Sign out Successful')
+        deleteCookie('accessToken')
+        router.push('/login')
         // ...
       })
       .catch((error) => {

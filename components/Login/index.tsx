@@ -3,11 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { formSchema } from './schema'
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md'
 import { MdPassword } from 'react-icons/md'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/fibase'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
+
 
 const LoginForm = () => {
   const router = useRouter()
@@ -36,7 +37,7 @@ const LoginForm = () => {
         // Signed in
         const user = userCredential.user
         toast('Login successful')
-        console.log({ user })
+        // console.log('{ user }', user?.stsTokenManager.accessToken)
         router.push('/')
         // localStorage.setItem('token', user?.accessToken)
         // ...

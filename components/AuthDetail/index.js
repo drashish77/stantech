@@ -13,8 +13,11 @@ const AuthDetail = () => {
         setAuthUser(null)
       }
     })
+    return () => {
+      listen()
+    }
   }, [])
-  return <div>{authUser ? <p>Sign In</p> : <p>Sign out</p>}</div>
+  return authUser
 }
 
 export default AuthDetail
