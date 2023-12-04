@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useEffect, use } from 'react'
-// import data from './data.json'
 import Image from 'next/image'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '@/fibase'
@@ -120,7 +119,7 @@ const Search = () => {
             <input
               type='text'
               className='w-full border px-4 py-2'
-              placeholder='search by name and dates'
+              placeholder='search by name, status and dates'
               onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
             />
           </div>

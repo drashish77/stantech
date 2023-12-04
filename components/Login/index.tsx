@@ -34,7 +34,8 @@ const LoginForm = () => {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user
+        router.push('/')
+        // const user = userCredential.user
         toast('Login successful')
 
         router.push('/')
