@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/create-new/page.tsx", "components/AddTask/index.jsx", "fibase.js", "components/AuthDetail/index.js", "components/Header/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/create-new/page.tsx", "components/AddTask/index.jsx", "fibase.js", "components/AuthDetail/index.js", "components/Header/index.jsx", "components/Login/index.jsx"],
   "exclude": ["node_modules"]
 }
