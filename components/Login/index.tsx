@@ -12,17 +12,20 @@ import Link from 'next/link'
 const LoginForm = () => {
   const router = useRouter()
 
-  // interface FormValues {
-  //   email: string
-  //   password: string
-  // }
+  interface FormValues {
+    email: string
+    password: string
+  }
 
-  const initialValues = {
+  const initialValues: FormValues = {
     email: '',
     password: '',
   }
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (
+    values: FormValues,
+    actions: { resetForm: () => void }
+  ) => {
     const payload = {
       email: values.email,
       password: values.password,
@@ -30,12 +33,9 @@ const LoginForm = () => {
 
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        // Signed in
-
-        const user = userCredential.user
-        setCookie('accessToken', user.accessToken)
+        // const user = userCredential.user
         toast('Login successful')
-
+        actions.resetForm()
         router.push('/')
       })
       .catch((error) => {
