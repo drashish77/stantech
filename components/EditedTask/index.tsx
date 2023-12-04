@@ -108,6 +108,7 @@ const EditTaskForm = (data: TaskData) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   checked={formik.values.status === 'active'}
+                  className='mr-2'
                 />
                 Active
               </label>
@@ -119,6 +120,7 @@ const EditTaskForm = (data: TaskData) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   checked={formik.values.status === 'inactive'}
+                  className='mr-2'
                 />
                 Inactive
               </label>
