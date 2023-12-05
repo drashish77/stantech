@@ -1,26 +1,30 @@
-'use client'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { formSchema } from './schema'
-import { MdOutlineDriveFileRenameOutline } from 'react-icons/md'
-import { MdPassword } from 'react-icons/md'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/fibase'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
-import Link from 'next/link'
+"use client";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { formSchema } from "./schema";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { MdPassword } from "react-icons/md";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/fibase";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
+import Link from "next/link";
+import { signIn } from "@/utils/auth";
+import { SECRET1_ROUTE } from "@/utils/route";
 
 const LoginForm = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const continueTo = searchParams.get("continueTo") ?? SECRET1_ROUTE;
   interface FormValues {
-    email: string
-    password: string
+    email: string;
+    password: string;
   }
 
   const initialValues: FormValues = {
-    email: '',
-    password: '',
-  }
+    email: "",
+    password: "",
+  };
 
   const onSubmit = async (
     values: FormValues,
@@ -29,102 +33,108 @@ const LoginForm = () => {
     const payload = {
       email: values.email,
       password: values.password,
-    }
+    };
 
-    signInWithEmailAndPassword(auth, values.email, values.password)
-      .then((userCredential) => {
-        // const user = userCredential.user
-        toast('Login successful')
-        actions.resetForm()
-        router.push('/')
-      })
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-      })
-  }
+    // signInWithEmailAndPassword(auth, values.email, values.password)
+    //   .then((userCredential) => {
+    //     // const user = userCredential.user
+    //     toast('Login successful')
+    //     actions.resetForm()
+    //     router.push('/')
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code
+    //     const errorMessage = error.message
+    //   })
+    try {
+      await signIn(values.email, values.password, true);
+      router.replace(continueTo);
+    } catch (error) {
+      window.alert(error);
+    }
+  };
 
   return (
     <div className={`relative z-30 flex  w-full items-center justify-center `}>
-      <div className='rounded'>
+      <div className="rounded">
         <Formik
           initialValues={initialValues}
           validationSchema={formSchema}
           onSubmit={onSubmit}
         >
           {(props) => {
-            const { errors, values, touched } = props
+            const { errors, values, touched } = props;
             return (
-              <Form className='border p-10 rounded-lg'>
-                <h3 className=' mb-8 text-center text-2xl font-bold text-[#020066]'>
+              <Form className="border p-10 rounded-lg">
+                <h3 className=" mb-8 text-center text-2xl font-bold text-[#020066]">
                   Login
                 </h3>
                 {/* {JSON.stringify(props.values)} */}
-                <div className=''>
-                  <div className='h-[90px]'>
+                <div className="">
+                  <div className="h-[90px]">
                     <div
                       className={
-                        'flex items-center gap-2 rounded-lg border-[1px]  border-black/20 p-2 '
+                        "flex items-center gap-2 rounded-lg border-[1px]  border-black/20 p-2 "
                       }
                     >
-                      <MdOutlineDriveFileRenameOutline className='ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:left-40' />
+                      <MdOutlineDriveFileRenameOutline className="ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:left-40" />
                       <Field
-                        type='text'
-                        name='email'
-                        placeholder='Enter your email'
-                        className='w-full  px-2 py-2 outline-none'
+                        type="text"
+                        name="email"
+                        placeholder="Enter your email"
+                        className="w-full  px-2 py-2 outline-none"
                       />
                     </div>
-                    <div className='mt-1 text-xs text-red-500 '>
-                      <ErrorMessage name='email' />
+                    <div className="mt-1 text-xs text-red-500 ">
+                      <ErrorMessage name="email" />
                     </div>
                   </div>
-                  <div className='h-[90px]'>
+                  <div className="h-[90px]">
                     <div
                       className={
-                        'flex items-center gap-2 rounded-lg border-[1px]  border-black/20 p-2 '
+                        "flex items-center gap-2 rounded-lg border-[1px]  border-black/20 p-2 "
                       }
                     >
-                      <MdPassword className='ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:left-40' />
+                      <MdPassword className="ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:left-40" />
                       <Field
-                        type='text'
-                        name='password'
-                        placeholder='Enter your password'
-                        className='w-full  px-2 py-2 outline-none'
+                        type="text"
+                        name="password"
+                        placeholder="Enter your password"
+                        className="w-full  px-2 py-2 outline-none"
                       />
                     </div>
-                    <div className='mt-1 text-xs text-red-500 '>
-                      <ErrorMessage name='password' />
+                    <div className="mt-1 text-xs text-red-500 ">
+                      <ErrorMessage name="password" />
                     </div>
                   </div>
                 </div>
-                <p className='-mt-5 text-right'>
+                <p className="-mt-5 text-right">
                   No account please
                   <Link
-                    href='/signup'
-                    className='text-blue-500 hover:underline cursor-pointer'
+                    href="/signup"
+                    className="text-blue-500 hover:underline cursor-pointer"
                   >
-                    {' '}
+                    {" "}
                     Sign Up
-                  </Link>{' '}
+                  </Link>{" "}
                   here
                 </p>
-                <div className=' relative'>
+                <div className=" relative">
                   <button
-                    type='submit'
+                    type="submit"
                     // disabled={props.isSubmitting}
-                    className='bg-blue-400 group mt-4 relative  w-full rounded-full px-10 py-3 text-center text-white transition-all duration-[400ms] hover:md:-translate-y-1'
+                    className="bg-blue-400 group mt-4 relative  w-full rounded-full px-10 py-3 text-center text-white transition-all duration-[400ms] hover:md:-translate-y-1"
                   >
                     Submit
                   </button>
                 </div>
               </Form>
-            )
+            );
           }}
         </Formik>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
