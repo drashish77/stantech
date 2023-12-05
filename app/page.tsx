@@ -1,9 +1,11 @@
-import Search from "@/components/Search";
-import { LOGIN_ROUTE } from "@/utils/route";
+"use client";
+import { useUser } from "@/utils/auth";
+import { LOGIN_ROUTE, SECRET1_ROUTE } from "@/utils/route";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const user = useUser();
   return (
     <main className="container mt-5 ">
       {/* <Search /> */}
@@ -24,14 +26,25 @@ export default function Home() {
         </div>
       </div>
       <div className="">
-        <div className="mt-4 text-center">
-          Please{" "}
-          <Link href={`${LOGIN_ROUTE}`} className="text-blue-500">
-            {" "}
-            Log In
-          </Link>{" "}
-          to continue.
-        </div>
+        {user ? (
+          <div className="mt-4 text-center">
+            Please visit{" "}
+            <Link href={`${SECRET1_ROUTE}`} className="text-blue-500">
+              {" "}
+              Dashboard
+            </Link>{" "}
+            to continue.
+          </div>
+        ) : (
+          <div className="mt-4 text-center">
+            Please{" "}
+            <Link href={`${LOGIN_ROUTE}`} className="text-blue-500">
+              {" "}
+              Log In
+            </Link>{" "}
+            to continue.
+          </div>
+        )}
       </div>
     </main>
   );

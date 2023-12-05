@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { auth } from "@/fibase";
 import { toast } from "react-toastify";
 import { useUser } from "@/utils/auth";
+import { CiLogin, CiLogout } from "react-icons/ci";
+import { MdLogin, MdLogout } from "react-icons/md";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,28 +72,14 @@ const Header = () => {
             <button onClick={signOutHandler}>
               <div className="hover::-translate-y-1 cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]">
                 Logout
-                <Image
-                  src="images/signout.svg"
-                  alt="Logout Logo"
-                  className="text-red-500 inline ml-2"
-                  width={20}
-                  height={20}
-                  priority
-                />
+                <MdLogout className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-red-600 font-bold" />
               </div>
             </button>
           ) : (
             <Link href="/login">
               <div className="hover::-translate-y-1 cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]">
                 Login
-                <Image
-                  src="images/login.svg"
-                  alt="Login Logo"
-                  className="text-red-500 inline ml-2"
-                  width={20}
-                  height={20}
-                  priority
-                />
+                <MdLogin className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-green-600 font-bold" />
               </div>
             </Link>
           )}
@@ -178,14 +166,7 @@ const Header = () => {
                       <button onClick={signOutHandler}>
                         <div className="hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
                           Logout
-                          <Image
-                            src="images/logout.svg"
-                            alt="Logout Logo"
-                            className=" inline ml-2"
-                            width={20}
-                            height={20}
-                            priority
-                          />
+                          <MdLogout className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-red-600 font-bold" />
                         </div>
                       </button>
                     </li>
@@ -194,14 +175,7 @@ const Header = () => {
                       <Link href="/login">
                         <div className="hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
                           Login
-                          <Image
-                            src="images/login.svg"
-                            alt="Login Logo"
-                            className=" inline ml-2"
-                            width={20}
-                            height={20}
-                            priority
-                          />
+                          <MdLogin className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-green-600 font-bold" />
                         </div>
                       </Link>
                     </li>

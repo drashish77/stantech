@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Loader from "../Loader";
 import EditTaskForm from "../EditedTask";
 import { GoSortAsc } from "react-icons/go";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -192,24 +193,10 @@ const Search = () => {
                           modalOpenHandler();
                         }}
                       >
-                        <Image
-                          src="images/edit.svg"
-                          alt="sort Logo"
-                          className=" w-4 h-4 md:w-5 md:h-5"
-                          width={20}
-                          height={20}
-                          priority
-                        />
+                        <FaEdit className="inline  object-contain  2xl:lefinline t-40 text-green-600 font-bold" />
                       </button>
                       <button onClick={() => deleteHandler(i.id)}>
-                        <Image
-                          src="images/trash.svg"
-                          alt="sort Logo"
-                          className=" w-4 h-4 md:w-5 md:h-5"
-                          width={20}
-                          height={20}
-                          priority
-                        />
+                        <FaTrashAlt className="inline  object-contain  2xl:lefinline t-40 text-red-600 font-bold" />
                       </button>
                     </td>
                   </tr>
