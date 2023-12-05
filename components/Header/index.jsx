@@ -37,7 +37,7 @@ const Header = () => {
     <header className="shadow header sticky top-0 z-40  bg-white">
       <nav className="sticky top-0 flex  h-[100px] items-center justify-between p-4 lg:container ">
         <div className="">
-          <Link href="/">
+          <Link href="/protected/all">
             <Image
               src="/android-chrome-512x512.png"
               alt="login image"
@@ -49,11 +49,11 @@ const Header = () => {
           </Link>
         </div>
         <div className="hidden items-center gap-12  md:flex">
-          <Link href="/">
+          {/* <Link href="/">
             <div className="cursor-pointer text-base font-semibold tracking-[0.5px] text-[#020066]">
               Home
             </div>
-          </Link>
+          </Link> */}
           <div className="flex cursor-pointer items-center gap-2">
             <Link href="/protected/all">
               <div className="text-base font-semibold tracking-[0.5px] text-[#020066]">
@@ -140,13 +140,13 @@ const Header = () => {
                   </svg>
                 </div>
                 <ul className="mt-20 flex flex-col gap-5">
-                  <li className="my-2  px-2 py-1">
+                  {/* <li className="my-2  px-2 py-1">
                     <Link href="/" onClick={menuHandler}>
                       <div className="cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
                         Home
                       </div>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="my-2  px-2 py-1">
                     <Link href="/protected/all" onClick={menuHandler}>
                       <div className="cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
@@ -166,7 +166,7 @@ const Header = () => {
                       <button onClick={signOutHandler}>
                         <div className="hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
                           Logout
-                          <MdLogout className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-red-600 font-bold" />
+                          <MdLogout className="inline ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-red-600 font-bold" />
                         </div>
                       </button>
                     </li>
@@ -175,7 +175,7 @@ const Header = () => {
                       <Link href="/login">
                         <div className="hover::-translate-y-1 cursor-pointer  font-semibold tracking-[0.5px] text-[#020066]">
                           Login
-                          <MdLogin className="inline ml-1 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-green-600 font-bold" />
+                          <MdLogin className="inline ml-2 h-[15px] w-[15px] object-contain md:h-[20px] md:w-[20px] 2xl:lefinline t-40 text-green-600 font-bold" />
                         </div>
                       </Link>
                     </li>
